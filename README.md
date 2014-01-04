@@ -10,7 +10,7 @@ To use, include jQuery and the DH javascript code, and instantiate similarly:
 $("#double-helix").DoubleHelix();
 ```
 
-The plugin also accepts an optional settings object with `fps`, `fgColor` and `bgColor` members.
+The plugin also accepts an optional settings object with `fps`, `fgColor` and `bgColor` properties.
 
 ## Contributing
 
