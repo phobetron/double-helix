@@ -1,7 +1,7 @@
 (function($) {
   var intervals = [];
 
-  $.fn.doubleHelix = function(options) {
+  $.fn.DoubleHelix = function(options) {
     var settings = {
       fps: 24,
       fgColor: "0,0,0",
