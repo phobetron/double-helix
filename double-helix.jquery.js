@@ -1,6 +1,4 @@
 (function($) {
-  var intervals = [];
-
   $.fn.DoubleHelix = function(options) {
     var settings = {
       fps: 24,
@@ -9,8 +7,6 @@
     }
 
     if (options) { settings = $.extend(settings, options); }
-
-    var c, width, height, halfWidth, halfHeight, half;
 
     var calculator = function(c, dim, t, y) {
       var x1 = 0, x2 = 0, z1 = 0, z2 = 0;
@@ -62,7 +58,7 @@
     }
 
     return this.each(function(i) {
-      c = this.getContext('2d');
+      var c = this.getContext('2d');
 
       var dim = {
         width: c.canvas.width,
@@ -70,7 +66,6 @@
         halfHeight: c.canvas.height/2,
         halfWidth: c.canvas.width/2
       }
-      dim["half"] = dim.halfWidth < dim.halfHeight ? dim.halfWidth : dim.halfHeight;
 
       var buffer = document.createElement('canvas');
       buffer.setAttribute('width', dim.width);
@@ -86,23 +81,35 @@
 
       var copies = dim.height > 180 ? Math.ceil(dim.height/180) : 1;
 
-      var draw = function() {
-        cb.clearRect(0, 0, dim.width, dim.height);
-        cb.fillStyle = settings.bgColor;
-        cb.fillRect(0, 0, dim.width, dim.height);
-        $.each(calculators, function(i, calc) {
-          calc.calculate();
-          calc.draw();
-        });
+      var now, delta;
+      var then = Date.now();
+      var interval = 1000/settings.fps;
 
-        c.clearRect(0, 0, dim.width, dim.height);
-        for (var n = 0; n < copies; n++) {
-          c.drawImage(buffer, 0, n*180);
+      var draw = function() {
+        requestAnimationFrame(draw);
+
+        now = Date.now();
+        delta = now - then;
+
+        if (delta >= interval) {
+          cb.clearRect(0, 0, dim.width, dim.height);
+          cb.fillStyle = settings.bgColor;
+          cb.fillRect(0, 0, dim.width, dim.height);
+          $.each(calculators, function(i, calc) {
+            calc.calculate();
+            calc.draw();
+          });
+
+          c.clearRect(0, 0, dim.width, dim.height);
+          for (var n = 0; n < copies; n++) {
+            c.drawImage(buffer, 0, n*180);
+          }
+
+          then = now - (delta % interval);
         }
       }
 
-      if (null != intervals[i]) { clearInterval(intervals[i]); }
-      intervals[i] = setInterval(draw, 600/settings.fps);
+      draw();
     });
   }
 })(jQuery);
