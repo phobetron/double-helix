@@ -4,7 +4,8 @@
     var settings = {
       fps: 24,
       fgColor: "0,0,0",
-      bgColor: "transparent"
+      bgColor: "transparent",
+      isClockwise: true
     };
 
     if (options) {
@@ -42,7 +43,7 @@
 
       return {
         calculate: function() {
-          t += 0.25;
+          settings.isClockwise ? (t += 0.25) : (t -= 0.25);
           x1 = Math.cos((t / 360) * (Math.PI * 2));
           x2 = Math.sin(((t + 270) / 360) * (Math.PI * 2));
           z1 = Math.cos(((t + 90) / 360) * (Math.PI * 2));
