@@ -4,14 +4,10 @@
     <meta charset="utf-8" />
 
     <title>Double-Helix Canvas Animation</title>
-    <button onclick="$().CancelDoubleHelix();" style="float: right;">
-      Cancel Animation
-    </button>
-    <button onclick="$().SetAnticlockwise();" style="float: right;">
-      Anticlockwise Animation
-    </button>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="double-helix.jquery.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <script type="text/javascript">
       $(window).ready(function() {
@@ -23,11 +19,56 @@
           fps: 10000
           // isClockwise: false
         });
+        window.app = new Vue({
+          el: "#app",
+          data: {
+            cancelTxt: "Cancel Animation",
+            rotationTxt: "Rotate anticlockwise",
+            isRotating: true,
+            isClockwise: true
+          },
+          methods: {
+            switchRotation: function() {
+              if (this.isRotating) {
+                $.fn.CancelDoubleHelix().then(_ => {
+                  this.cancelTxt = "Resume rotation";
+                  this.isRotating = false;
+                });
+              } else {
+                $.fn.RedrawDoubleHelix().then(_ => {
+                  this.cancelTxt = "Cancel Animation";
+                  this.isRotating = true;
+                });
+              }
+            },
+            switchClockwise() {
+              if (this.isClockwise) {
+                $.fn.SetClockwise(false).then(_ => {
+                  this.rotationTxt = "Resume clockwise";
+                  this.isClockwise = false;
+                });
+              } else {
+                $.fn.SetClockwise(true).then(_ => {
+                  this.rotationTxt = "Rotate anticlockwise";
+                  this.isClockwise = true;
+                });
+              }
+            }
+          }
+        });
       });
     </script>
   </head>
 
   <body>
-    <h1>Double-Helix Canvas Animation</h1>
+    <div id="app">
+      <h1>Double-Helix Canvas Animation</h1>
+      <button v-on:click="switchRotation" style="float: right;">
+        {{ cancelTxt }}
+      </button>
+      <button v-on:click="switchClockwise" style="float: right;">
+        {{ rotationTxt }}
+      </button>
+    </div>
   </body>
 </html>

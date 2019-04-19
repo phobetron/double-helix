@@ -6,6 +6,7 @@
     bgColor: "transparent",
     isClockwise: true
   };
+  let draw = null;
   $.fn.DoubleHelix = function(options) {
     if (options) {
       settings = $.extend(settings, options);
@@ -93,7 +94,7 @@
       var then = Date.now();
       var interval = 1000 / settings.fps;
 
-      var draw = function() {
+      draw = function() {
         requestId = requestAnimationFrame(draw);
 
         now = Date.now();
@@ -120,11 +121,19 @@
       draw();
     });
   };
-  $.fn.CancelDoubleHelix = () => window.cancelAnimationFrame(requestId);
-  $.fn.SetAnticlockwise = () => {
+  $.fn.CancelDoubleHelix = () => {
+    window.cancelAnimationFrame(requestId);
+    return Promise.resolve(requestId);
+  };
+  $.fn.SetClockwise = (isClockwise = true) => {
     settings = {
       ...settings,
-      isClockwise: false
+      isClockwise
     };
+    return Promise.resolve(isClockwise);
+  };
+  $.fn.RedrawDoubleHelix = () => {
+    draw();
+    return Promise.resolve();
   };
 })(jQuery);
