@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -14,7 +14,9 @@
         canvas.attr({ width: 100, height: $(document).height() });
         canvas.css({ position: "absolute", top: 0, left: 0 });
         $("body").append(canvas);
-        canvas.DoubleHelix();
+        canvas.DoubleHelix({
+          fps: 10000
+        });
       });
     </script>
   </head>
