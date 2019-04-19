@@ -1,13 +1,12 @@
 (function($) {
   let requestId = 0;
+  let settings = {
+    fps: 24,
+    fgColor: "0,0,0",
+    bgColor: "transparent",
+    isClockwise: true
+  };
   $.fn.DoubleHelix = function(options) {
-    var settings = {
-      fps: 24,
-      fgColor: "0,0,0",
-      bgColor: "transparent",
-      isClockwise: true
-    };
-
     if (options) {
       settings = $.extend(settings, options);
     }
@@ -122,4 +121,10 @@
     });
   };
   $.fn.CancelDoubleHelix = () => window.cancelAnimationFrame(requestId);
+  $.fn.SetAnticlockwise = () => {
+    settings = {
+      ...settings,
+      isClockwise: false
+    };
+  };
 })(jQuery);

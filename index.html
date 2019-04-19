@@ -4,7 +4,12 @@
     <meta charset="utf-8" />
 
     <title>Double-Helix Canvas Animation</title>
-
+    <button onclick="$().CancelDoubleHelix();" style="float: right;">
+      Cancel Animation
+    </button>
+    <button onclick="$().SetAnticlockwise();" style="float: right;">
+      Anticlockwise Animation
+    </button>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="double-helix.jquery.js" type="text/javascript"></script>
 
@@ -15,8 +20,8 @@
         canvas.css({ position: "absolute", top: 0, left: 0 });
         $("body").append(canvas);
         canvas.DoubleHelix({
-          fps: 10000,
-          isClockwise: false
+          fps: 10000
+          // isClockwise: false
         });
       });
     </script>
